@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "galaxia.h"
 
 //Esta función imprime la matriz
 void imprime(double **aux, int n){

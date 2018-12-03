@@ -1,0 +1,25 @@
+100
+10
+150
+15
+3
+50
+10
+1
+/home/missael/Documentos/semestre1/pf2018-tesla/proyecto_final/puntos/
+1
+000.txt
+##Este es el archivo de lectura para la simulación de colisión de galaxias, con n cuerpos
+##Primero daremos los valores de la primera esfera de puntos (galaxias):
+# puntos (n):
+# radio (r_1):
+#Ahora los datos de la segunda esfera;
+#puntos (N):
+#radio (r_2)
+#Damos la velocidad maxima que puede tener una particula, como condición inicial (vo):
+#Separación entre las dos esferas (R):
+#Tiempo de analisis (T) en segundos:
+#Paso de tiempo en segundos (h):
+#Directorio para guardar archivos con tiempos:
+#0 si queremos leer puntos de archivo, 1 si queremos generarlos:
+#Nombre del archivo a leer

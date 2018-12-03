@@ -1,27 +1,33 @@
-#include <stdio.h>	
+#include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-
-void imprime(double **aux, int n);
-double **esfera(double **aux, int n, double r, double t, double v);
-double limit(double aux, double r);
-double crea(double M);
-void archivo(double **es1, double **es2, int n, int N, int pos);
-double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n, int N);
-
+#include "galaxia.h"
 
 int main(){
 	
-	int n, N, pos=0;
-	double r_1, r_2, R, vo, h=1, T;
-	n = 100;	
-	N = 200;
-	r_1 = 10;
-	r_2 = 15;
-	R = 50;
-	vo=5;
-	T=10;
+	int n, N, pos=0, gen;
+	double r_1, r_2, R, vo, h, T;
+	char dir[70], arch[70];	
+
+	FILE *lee;
 	
+	lee = fopen("inicio.txt", "r");
+	fscanf(lee, "%i", &n);
+	fscanf(lee, "%lf", &r_1);
+	fscanf(lee, "%i", &N);
+	fscanf(lee, "%lf", &r_2);
+	fscanf(lee, "%lf", &vo);
+	fscanf(lee, "%lf", &R);
+	fscanf(lee, "%lf", &T);
+	fscanf(lee, "%lf", &h);
+	fgets(dir, 70, lee);
+	fscanf(lee, "%i", &gen);
+	printf("%i \n", gen);
+	fgets(arch, 70, lee);
+	fclose(lee);
+	printf("%s", dir);
+	printf("%s", arch);
+		
 	double **es1, **es2, **nes1, **nes2;
 	es1 = (double **) malloc(n*sizeof(double));	
 	es2 = (double **) malloc(N*sizeof(double));
@@ -37,9 +43,30 @@ int main(){
 		nes2[i] = (double*) malloc (9*sizeof(double));
 	}
 
-	es1 = esfera(es1, n, r_1, 0, vo);
-	es2 = esfera(es2, N, r_2, R, vo);
-	
+	if(gen==1){	
+		es1 = esfera(es1, n, r_1, 0, vo);
+		es2 = esfera(es2, N, r_2, R, vo);
+	}
+
+	if(gen==0){
+		FILE *galax;
+		char *ex;
+		ex = arch;
+		galax = fopen(ex, "r");
+		fscanf(galax, "%i", &n);
+		for(int i=0 ; i<n ; i++){
+			for(int j=0 ; j<6 ; j++){
+				fscanf(galax, "%lf", &es1[i][j]);
+			}	
+		}
+		fscanf(galax, "%i", &N);
+		for(int i=0 ; i<N ; i++){
+			for(int j=0 ; j<6 ; j++){
+				fscanf(galax, "%lf", &es2[i][j]);
+			}	
+		}
+	}
+
 	for(int i=0 ; i<n ; i++){	
 		es1[i] = fuerza(es1, es2, 0, i, es1[i], n, N);
 	}
@@ -75,7 +102,7 @@ int main(){
 		}
 		es1 = nes1;
 		es2 = nes2;
-		archivo(es1, es2, n, N, pos);
+		//archivo(es1, es2, n, N, pos);
 		pos++;
 	}
 	return 0;
