@@ -5,7 +5,7 @@
 //Esta función imprime la matriz
 void imprime(double **aux, int n){
 	for(int i=0 ; i<n ; i++){
-		for(int j=0 ; j<3 ; j++){
+		for(int j=0 ; j<9 ; j++){
 			printf("%0.3lf \t", aux[i][j]);
 		}	
 		printf("\n");
@@ -28,7 +28,7 @@ double crea(double M){
 	}
 }
 
-//Esta función crea esferas de radio r, n puntos y con un desplazamiento "t" en el eje "x"
+//Esta función crea esferas de radio r, n puntos y con un desplazamiento "t" en el eje "x", con velocidad max "v"
 double **esfera(double **aux, int n, double r, double t, double v){
 	double count =0;
 	for (int i=0 ; i<n ; i++){
@@ -52,7 +52,11 @@ double **esfera(double **aux, int n, double r, double t, double v){
 }
 
 //Esta función guarda los puntos en un archivo de texto
-void archivo(double **es1, double **es2, int n, int pos){
+void archivo(double **es1, double **es2, int n, int N, int pos){
+	if(pos>1000){
+		return;
+	}	
+	//char total[] = "pf2018-tesla/proyecto_final/puntos/";	
 	char name[7] = {'0', '0', '0', '.', 't', 'x', 't'};
 	name[0]=(pos/100)+'0';
 	pos%=100;
@@ -60,6 +64,7 @@ void archivo(double **es1, double **es2, int n, int pos){
 	pos%=10;
 	name[2]=pos+'0';
 
+	//printf("%s \n", total);
 	char *sup;
 	sup = name;
 
@@ -67,7 +72,7 @@ void archivo(double **es1, double **es2, int n, int pos){
 
 	crea = fopen(sup, "w");
 
-	fprintf(crea, "//esfera 1 \n");
+	fprintf(crea, "%i \n", n);
 	for(int i=0 ; i<n ; i++){
 		for(int j=0 ; j<6 ; j++){
 			fprintf(crea, "%0.2lf \t", es1[i][j]);
@@ -76,8 +81,8 @@ void archivo(double **es1, double **es2, int n, int pos){
 	}
 	fprintf(crea, "\n");
 
-	fprintf(crea, "//esfera 2 \n");
-	for(int i=0 ; i<n ; i++){
+	fprintf(crea, "%i \n", N);
+	for(int i=0 ; i<N ; i++){
 		for(int j=0 ; j<6 ; j++){
 			fprintf(crea, "%0.2lf \t", es2[i][j]);
 		}	
@@ -85,4 +90,35 @@ void archivo(double **es1, double **es2, int n, int pos){
 	}
 	fprintf(crea, "\n");
 	fclose(crea);
+	return;
 }
+
+
+double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n, int N){
+	double x, y, z, G, r;
+	G = -4*(3.14159265359)*(3.14159265359);
+	pun[6]=0;
+	pun[7]=0;
+	pun[8]=0;
+	x = pun[0];
+	y = pun[1];
+	z = pun[2];
+	for(int i=0 ; i<n ; i++){
+		if(i != pos || mat==1){
+			r = sqrt((x-es1[i][0])*(x-es1[i][0])+(y-es1[i][1])*(y-es1[i][1])+(z-es1[i][2])*(z-es1[i][2]));			
+			pun[6] += (G*(x-es1[i][0]))/(r*r*r);
+			pun[7] += (G*(y-es1[i][1]))/(r*r*r);
+			pun[8] += (G*(z-es1[i][2]))/(r*r*r);
+		}	
+	}
+	for(int i=0 ; i<N ; i++){
+		if(i != pos || mat==0){			
+			r = sqrt((x-es2[i][0])*(x-es2[i][0])+(y-es2[i][1])*(y-es2[i][1])+(z-es2[i][2])*(z-es2[i][2]));			
+			pun[6] += (G*(x-es2[i][0]))/(r*r*r);
+			pun[7] += (G*(y-es2[i][1]))/(r*r*r);
+			pun[8] += (G*(z-es2[i][2]))/(r*r*r);	
+		}
+	}
+	return pun;
+}
+
