@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+//Este archivo corresponde a la libreria creada para este proyecto
+
+
+//Se incluyen las funciones usadas, mismas que estan definidas en el archivo "funciones.c"
 void imprime(double **aux, int n);
 double **esfera(double **aux, int n, double r, double t, double v);
 double limit(double aux, double r);
