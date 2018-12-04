@@ -92,7 +92,8 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 	FILE *crea;
 	crea = fopen(supp, "w");
 
-	fprintf(crea, "%i \n", n);
+	fprintf(crea, "## Las primeras %i lineas corresponden a la esfera 1 \n##las siguienets %i lineas a la esfera 2\n", n, N);
+	fprintf(crea, "## Las primeras tres columnas corresponden a la posición en 'x', 'y' y 'z', las siguientes tres a las velocidades\n");
 	//Imprimimos n lineas correspondientes a la esfera 1 con 6 datos (posiciones y velocidades en x, y y z)
 	for(int i=0 ; i<n ; i++){
 		for(int j=0 ; j<6 ; j++){
@@ -100,9 +101,9 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 		}	
 		fprintf(crea, "\n");
 	}
-	fprintf(crea, "\n");
+	//fprintf(crea, "\n");
 
-	fprintf(crea, "%i \n", N);
+	//fprintf(crea, "%i \n", N);
 	//Imprimimos N lineas correspondientes a la esfera 2
 	for(int i=0 ; i<N ; i++){
 		for(int j=0 ; j<6 ; j++){
@@ -110,7 +111,7 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 		}	
 		fprintf(crea, "\n");
 	}
-	fprintf(crea, "\n");
+	//fprintf(crea, "\n");
 	
 	//Cerramos el archivo de escritura
 	fclose(crea);

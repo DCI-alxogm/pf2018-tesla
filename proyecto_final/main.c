@@ -108,9 +108,22 @@ int main(){
 		es2[i] = fuerza(es1, es2, 1, i, es2[i], n, N);
 	}
 
-	//Creamos el primer archivo, con todos los datos iniciales, con la función archivo()
+	//Creamos el primer archivo, con todos los datos iniciales, con la función archivo(), ademas, creamos el archivp "size.txt" que contiene el numero de puntos por esfera
+	//para poder graficar los datos
+	
 	archivo(es1, es2, n, N, pos, dir, len);
 	pos++;
+
+	FILE *ini;
+	char *extra;
+	extra = dir;
+	char name[8] = {'s','i','z','e','.','t','x', 't'};
+	for(int i=0 ; i<8 ; i++){
+		extra[len+i-1]=name[i];
+	}
+	ini = fopen(extra, "w");
+	fprintf(ini, "%i %i\n", n, N);
+	fclose(ini);	
 	
 	//En este ciclo se realiza la simulación, desde i hasta T, dando pasos de tamaño h	
 	for(double i=0 ; i<=T; i+=h){
