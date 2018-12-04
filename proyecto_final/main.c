@@ -122,7 +122,7 @@ int main(){
 		extra[len+i-1]=name[i];
 	}
 	ini = fopen(extra, "w");
-	fprintf(ini, "%i %i\n", n, N);
+	fprintf(ini, "%i\t%i\n", n, N);
 	fclose(ini);	
 	
 	//En este ciclo se realiza la simulación, desde i hasta T, dando pasos de tamaño h	
