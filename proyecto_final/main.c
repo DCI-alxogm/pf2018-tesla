@@ -20,7 +20,7 @@ int main(){
 
 	//r_1 y r_2 es el radio de cada esfera, R la distancia que las separa, vo la velocidad maxima para un punto dado
 	//h el paso de tiempo y T el tiempo total a analizar
-	double r_1, r_2, R, vo, h, T;
+	double r_1, r_2, R, vo, h, T, rel_x, rel_y;
 
 	//La cadena de caracteres "dir" es para guardar la dirección donde se guardaran los archivos de los puntos a cada paso de tiempo
 	//arch es una cadena para, en caso de ser necesario, guardar el nombre del archivo con posiciones y velocidades inciciales
@@ -42,6 +42,8 @@ int main(){
 	fgets(dir, 200, lee);
 	fscanf(lee, "%i \n", &gen);
 	fgets(arch, 40, lee);
+	fscanf(lee, "%lf", &rel_x);
+	fscanf(lee, "%lf", &rel_y);
 
 	//Cerramos el archivo de lectura
 	fclose(lee);
@@ -70,8 +72,8 @@ int main(){
 
 	//Se generan las esferas si así se indica
 	if(gen==1){	
-		es1 = esfera(es1, n, r_1, 0, vo);
-		es2 = esfera(es2, N, r_2, R, vo);
+		es1 = esfera(es1, n, r_1, 0, vo, 0.0, 0.0);
+		es2 = esfera(es2, N, r_2, R, vo, rel_x, rel_y);
 	}
 
 	//Se leen los datos iniciales para las esferas, de un archivo, si asi se indica

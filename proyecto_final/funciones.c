@@ -36,7 +36,7 @@ double crea(double M){
 }
 
 //Esta función crea esferas de radio r, n puntos y con un desplazamiento "t" en el eje "x", con velocidad maxima "v" para cada punto
-double **esfera(double **aux, int n, double r, double t, double v){
+double **esfera(double **aux, int n, double r, double t, double v, double rel_x, double rel_y){
 	double count =0;
 	
 	//Realizamos n iteraciones	
@@ -62,7 +62,10 @@ double **esfera(double **aux, int n, double r, double t, double v){
 		}
 		
 		//Desplazamos el punto generado una distancia "t" en el eje x
-		aux[i][0]+=t;		
+		aux[i][0]+=t;
+		//Ponemos la velocidad relativa en x y en y, solo en la esfera 2
+		aux[i][3]+=rel_x;
+		aux[i][4]+=rel_y;		
 	}
 	return aux;
 }
@@ -94,6 +97,7 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 
 	fprintf(crea, "## Las primeras %i lineas corresponden a la esfera 1 \n##las siguienets %i lineas a la esfera 2\n", n, N);
 	fprintf(crea, "## Las primeras tres columnas corresponden a la posición en 'x', 'y' y 'z', las siguientes tres a las velocidades\n");
+	
 	//Imprimimos n lineas correspondientes a la esfera 1 con 6 datos (posiciones y velocidades en x, y y z)
 	for(int i=0 ; i<n ; i++){
 		for(int j=0 ; j<6 ; j++){
@@ -102,6 +106,8 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 		fprintf(crea, "\n");
 	}
 	//fprintf(crea, "\n");
+	
+
 
 	//fprintf(crea, "%i \n", N);
 	//Imprimimos N lineas correspondientes a la esfera 2
