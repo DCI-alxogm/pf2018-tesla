@@ -129,7 +129,7 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 	
 	double x, y, z, G, r;
 	//G es la constante gravitacional
-	G = -4*(3.14159265359)*(3.14159265359);
+	G = -0.00449253817;
 	
 	//Inicializamos las fuerzas en 0
 	pun[6]=0;

@@ -1,9 +1,9 @@
-200
+1000
 50
-300
-70
+1500
+65
 0.1
-150
+160
 10
 0.1
 /home/missael/Documentos/semestre1/pf2018-tesla/proyecto_final/puntos/
@@ -18,13 +18,13 @@
 ## (r_1) radio de la esfera 1 (pc)
 ## (N) puntos de esfera 2
 ## (r_2) radio de esfera 2 (pc)
-## (vo) velocidad inicial maxima de las particulas (km/s)
+## (vo) velocidad inicial maxima de las particulas (pc/mega año)
 ## (R) separación entre ambas esferas (en el eje x, en pc)
-## (T) tiempo de analisis (s)
-## (h) paso de tiempo (s)
+## (T) tiempo de analisis (mega años)
+## (h) paso de tiempo (mega años)
 ## (dir) dirección de la carpeta a donde se guardarán los archivos (importante definirla)
 ## (gen) si gen==1, se generan las esferas, si gen==0 entonces se lee todo de un archivo
 ## (lee) nombre del archivo a leer
-## (rel_x) velocidad relativa en x
-## (rel_y) velocidad relativa
+## (rel_x) velocidad relativa en x (pc / mega año)
+## (rel_y) velocidad relativa (pc / mega año)
 
