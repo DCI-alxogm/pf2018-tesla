@@ -114,18 +114,7 @@ int main(){
 	//para poder graficar los datos
 	
 	archivo(es1, es2, n, N, pos, dir, len);
-	pos++;
-
-	FILE *ini;
-	char *extra;
-	extra = dir;
-	char name[8] = {'s','i','z','e','.','t','x', 't'};
-	for(int i=0 ; i<8 ; i++){
-		extra[len+i-1]=name[i];
-	}
-	ini = fopen(extra, "w");
-	fprintf(ini, "%i\t%i\n", n, N);
-	fclose(ini);	
+	pos++;	
 	
 	//En este ciclo se realiza la simulación, desde i hasta T, dando pasos de tamaño h	
 	for(double i=0 ; i<=T; i+=h){
@@ -165,5 +154,16 @@ int main(){
 		//Avanzamos el contador
 		pos++;
 	}
+
+	FILE *ini;
+	char *extra;
+	extra = dir;
+	char name[8] = {'s','i','z','e','.','t','x', 't'};
+	for(int i=0 ; i<8 ; i++){
+		extra[len+i-1]=name[i];
+	}
+	ini = fopen(extra, "w");
+	fprintf(ini, "%i\t%i\t%i\n", n, N, pos);
+	fclose(ini);
 	return 0;
 }
