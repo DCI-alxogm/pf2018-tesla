@@ -44,6 +44,7 @@ int main(){
 	fgets(arch, 40, lee);
 	fscanf(lee, "%lf", &rel_x);
 	fscanf(lee, "%lf", &rel_y);
+	printf("%lf \n", R);
 
 	//Cerramos el archivo de lectura
 	fclose(lee);

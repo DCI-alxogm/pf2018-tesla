@@ -4,7 +4,7 @@
 50
 0.5
 160
-1000
+10000
 5
 /home/missael/Documentos/semestre1/pf2018-tesla/proyecto_final/puntos/
 1
