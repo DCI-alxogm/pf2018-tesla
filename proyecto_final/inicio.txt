@@ -27,4 +27,3 @@
 ## (lee) nombre del archivo a leer
 ## (rel_x) velocidad relativa en x (km / s)
 ## (rel_y) velocidad relativa (km / s)
-
