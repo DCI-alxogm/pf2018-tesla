@@ -13,4 +13,5 @@ double limit(double aux, double r);
 double crea(double M);
 void archivo(double **es1, double **es2, int n, int N, int pos, char *dir, int len);
 double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n, int N);
+double potencial(double **es1, double **es2, int n, int N);
 

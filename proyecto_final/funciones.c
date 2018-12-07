@@ -63,7 +63,7 @@ double **esfera(double **aux, int n, double r, double t, double v, double rel_x,
 		
 		//Desplazamos el punto generado una distancia "t" en el eje x
 		aux[i][0]+=t;
-		//Ponemos la velocidad relativa en x y en y, solo en la esfera 2
+		//Ponemos la velocidad relativa en x y en y
 		aux[i][3]+=rel_x;
 		aux[i][4]+=rel_y;		
 	}
@@ -72,21 +72,21 @@ double **esfera(double **aux, int n, double r, double t, double v, double rel_x,
 
 //Esta función guarda los puntos de ambas esferas en un archivo
 void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int len){	
-	//A lo mas, se generarán 9,999 archivos	
-	if(pos>99999){
+	//A lo mas, se generarán 99,999 archivos, y se guarda unicamente cada 10 iteraciones
+	if(pos>999999 || pos%100!=0){
 		return;
 	}	
 	//Generamos el nombre del archivo, que tendra la forma "numero.txt", donde numero es el numero de iteración que representa
 	char name[9] = {'0','0', '0', '0', '0', '.', 't', 'x', 't'};
-	name[0]=(pos/10000)+'0';
-	pos%=10000;	
-	name[1]=(pos/1000)+'0';
-	pos%=1000;	
-	name[2]=(pos/100)+'0';
-	pos%=100;
-	name[3]=(pos/10)+'0';
-	pos%=10;
-	name[4]=pos+'0';
+	name[0]=(pos/1000000)+'0';
+	pos%=1000000;	
+	name[1]=(pos/100000)+'0';
+	pos%=100000;	
+	name[2]=(pos/10000)+'0';
+	pos%=10000;
+	name[3]=(pos/1000)+'0';
+	pos%=1000;
+	name[4]=(pos/100)+'0';
 
 	//Copiamos el nombre del archivo a la cadena supp, que contiene previamente la dirección donde se guardará el archivo
 	for(int i=0 ; i<9 ; i++){
@@ -98,7 +98,7 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 	crea = fopen(supp, "w");
 
 	fprintf(crea, "## Las primeras %i lineas corresponden a la esfera 1 \n##las siguienets %i lineas a la esfera 2\n", n, N);
-	fprintf(crea, "## Las primeras tres columnas corresponden a la posición en 'x', 'y' y 'z', las siguientes tres a las velocidades\n");
+	fprintf(crea, "## Las primeras tres columnas corresponden a la posición en 'x', 'y' y 'z', dadas en kpc, las siguientes tres a las velocidades, dadas en km/s\n");
 	
 	//Imprimimos n lineas correspondientes a la esfera 1 con 6 datos (posiciones y velocidades en x, y y z)
 	for(int i=0 ; i<n ; i++){
@@ -107,11 +107,7 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 		}	
 		fprintf(crea, "\n");
 	}
-	//fprintf(crea, "\n");
-	
 
-
-	//fprintf(crea, "%i \n", N);
 	//Imprimimos N lineas correspondientes a la esfera 2
 	for(int i=0 ; i<N ; i++){
 		for(int j=0 ; j<6 ; j++){
@@ -119,7 +115,6 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 		}	
 		fprintf(crea, "\n");
 	}
-	//fprintf(crea, "\n");
 	
 	//Cerramos el archivo de escritura
 	fclose(crea);
@@ -131,7 +126,7 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 	
 	double x, y, z, G, r;
 	//G es la constante gravitacional
-	G = -0.00449253817;
+	G = -4300;
 	
 	//Inicializamos las fuerzas en 0
 	pun[6]=0;
@@ -172,3 +167,35 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 	return pun;
 }
 
+double potencial(double **es1, double **es2, int n, int N){
+	double total=0, r, G=4300;
+	for(int i=0 ; i<n ; i++){
+		for(int j=i+1 ; j<n ; j++){
+			if(i!=j){			
+				r = sqrt((es1[i][0]-es1[j][0])*(es1[i][0]-es1[j][0])+(es1[i][1]-es1[j][1])*(es1[i][1]-es1[j][1])+(es1[i][2]-es1[j][2])*(es1[i][2]-es1[j][2]));
+				if(r!=0){			
+					total += (G/r);
+				}	
+			}	
+		}	
+		//printf("%lf\n", r);
+		for(int j=0 ; j<N ; j++){			
+			r = sqrt((es1[i][0]-es2[j][0])*(es1[i][0]-es2[j][0])+(es1[i][1]-es2[j][1])*(es1[i][1]-es2[j][1])+(es1[i][2]-es2[j][2])*(es1[i][2]-es2[j][2]));
+			if(r!=0){			
+				total += (G/r);
+			}			
+		}
+			
+	}
+	for(int i=0 ; i<N ; i++){
+		for(int j=i+1 ; j<N ; j++){			
+			if(j!=i){				
+				r = sqrt((es2[i][0]-es2[j][0])*(es2[i][0]-es2[j][0])+(es2[i][1]-es2[j][1])*(es2[i][1]-es2[j][1])+(es2[i][2]-es2[j][2])*(es2[i][2]-es2[j][2]));
+				if(r!=0){			
+					total += (G/r);
+				}	
+			}	
+		}		
+	}
+	return total;
+}
