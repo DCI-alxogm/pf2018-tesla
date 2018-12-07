@@ -2,11 +2,11 @@
 50
 500
 50
-0.5
+0.09
 160
 10000
 5
-/home/missael/Documentos/semestre1/pf2018-tesla/proyecto_final/puntos/
+/home/diazmj2018/Documents/pf2018-tesla/proyecto_final/puntos/
 1
 00000.txt
 0.0
