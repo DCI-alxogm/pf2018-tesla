@@ -73,20 +73,20 @@ double **esfera(double **aux, int n, double r, double t, double v, double rel_x,
 //Esta función guarda los puntos de ambas esferas en un archivo
 void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int len){	
 	//A lo mas, se generarán 99,999 archivos, y se guarda unicamente cada 10 iteraciones
-	if(pos>999999 || pos%100!=0){
+	if(pos>99999 || pos%10!=0){
 		return;
 	}	
 	//Generamos el nombre del archivo, que tendra la forma "numero.txt", donde numero es el numero de iteración que representa
 	char name[9] = {'0','0', '0', '0', '0', '.', 't', 'x', 't'};
-	name[0]=(pos/1000000)+'0';
-	pos%=1000000;	
-	name[1]=(pos/100000)+'0';
+	name[0]=(pos/100000)+'0';
 	pos%=100000;	
-	name[2]=(pos/10000)+'0';
-	pos%=10000;
-	name[3]=(pos/1000)+'0';
+	name[1]=(pos/10000)+'0';
+	pos%=10000;	
+	name[2]=(pos/1000)+'0';
 	pos%=1000;
-	name[4]=(pos/100)+'0';
+	name[3]=(pos/100)+'0';
+	pos%=100;
+	name[4]=(pos/10)+'0';
 
 	//Copiamos el nombre del archivo a la cadena supp, que contiene previamente la dirección donde se guardará el archivo
 	for(int i=0 ; i<9 ; i++){
