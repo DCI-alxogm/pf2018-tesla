@@ -86,7 +86,7 @@ void archivo(double **es1, double **es2, int n, int N, int pos, char *supp, int 
 	pos%=1000;
 	name[3]=(pos/100)+'0';
 	pos%=100;
-	name[4]=(pos/10)+'0';
+	name[4	]=(pos/10)+'0';
 
 	//Copiamos el nombre del archivo a la cadena supp, que contiene previamente la dirección donde se guardará el archivo
 	for(int i=0 ; i<9 ; i++){
@@ -127,6 +127,9 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 	double x, y, z, G, r;
 	//G es la constante gravitacional
 	G = -4300;
+
+	//Para que la aceleración quede en kPc/gAño²
+	double factor = 1.0443;
 	
 	//Inicializamos las fuerzas en 0
 	pun[6]=0;
@@ -147,9 +150,9 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 			r = sqrt((x-es1[i][0])*(x-es1[i][0])+(y-es1[i][1])*(y-es1[i][1])+(z-es1[i][2])*(z-es1[i][2]));	
 
 			//Obtenemos la fuerza que genera el punto i en el punto analizado		
-			pun[6] += (G*(x-es1[i][0]))/(r*r*r);
-			pun[7] += (G*(y-es1[i][1]))/(r*r*r);
-			pun[8] += (G*(z-es1[i][2]))/(r*r*r);
+			pun[6] += factor*(G*(x-es1[i][0]))/(r*r*r);
+			pun[7] += factor*(G*(y-es1[i][1]))/(r*r*r);
+			pun[8] += factor*(G*(z-es1[i][2]))/(r*r*r);
 		}	
 	}
 
@@ -157,9 +160,9 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 	for(int i=0 ; i<N ; i++){
 		if(i != pos || mat==0){			
 			r = sqrt((x-es2[i][0])*(x-es2[i][0])+(y-es2[i][1])*(y-es2[i][1])+(z-es2[i][2])*(z-es2[i][2]));			
-			pun[6] += (G*(x-es2[i][0]))/(r*r*r);
-			pun[7] += (G*(y-es2[i][1]))/(r*r*r);
-			pun[8] += (G*(z-es2[i][2]))/(r*r*r);	
+			pun[6] += factor*(G*(x-es2[i][0]))/(r*r*r);
+			pun[7] += factor*(G*(y-es2[i][1]))/(r*r*r);
+			pun[8] += factor*(G*(z-es2[i][2]))/(r*r*r);	
 		}
 	}
 
@@ -167,22 +170,23 @@ double *fuerza(double **es1, double **es2, int mat, int pos, double *pun, int n,
 	return pun;
 }
 
+//Esta función obtiene la energia potencial total del sistema 
 double potencial(double **es1, double **es2, int n, int N){
 	double total=0, r, G=4300;
+	double factor = 1.0443;
 	for(int i=0 ; i<n ; i++){
 		for(int j=i+1 ; j<n ; j++){
 			if(i!=j){			
 				r = sqrt((es1[i][0]-es1[j][0])*(es1[i][0]-es1[j][0])+(es1[i][1]-es1[j][1])*(es1[i][1]-es1[j][1])+(es1[i][2]-es1[j][2])*(es1[i][2]-es1[j][2]));
-				if(r!=0){			
-					total += (G/r);
+				if(r>0){			
+					total += (factor*G/r);
 				}	
 			}	
 		}	
-		//printf("%lf\n", r);
 		for(int j=0 ; j<N ; j++){			
 			r = sqrt((es1[i][0]-es2[j][0])*(es1[i][0]-es2[j][0])+(es1[i][1]-es2[j][1])*(es1[i][1]-es2[j][1])+(es1[i][2]-es2[j][2])*(es1[i][2]-es2[j][2]));
-			if(r!=0){			
-				total += (G/r);
+			if(r>0){			
+				total += (factor*G/r);
 			}			
 		}
 			
@@ -191,11 +195,12 @@ double potencial(double **es1, double **es2, int n, int N){
 		for(int j=i+1 ; j<N ; j++){			
 			if(j!=i){				
 				r = sqrt((es2[i][0]-es2[j][0])*(es2[i][0]-es2[j][0])+(es2[i][1]-es2[j][1])*(es2[i][1]-es2[j][1])+(es2[i][2]-es2[j][2])*(es2[i][2]-es2[j][2]));
-				if(r!=0){			
-					total += (G/r);
+				if(r>0){			
+					total += (factor*G/r);
 				}	
 			}	
 		}		
 	}
 	return total;
 }
+

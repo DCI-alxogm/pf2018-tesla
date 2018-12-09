@@ -1,6 +1,6 @@
 /*
 El presente proyecto consiste en simular la colisión de dos galaxias, usando para ello el metodo de Leap-frog. 
-Cada galaxia se idealiza como un espacio esferico ocupado por n puntos distribuidos de forma aleatoria, con velocidades iniciales también aleatorias
+Cada galaxia se idealiza como un espacio esferico ocupado por n puntos distribuidos de forma aleatoria, con velocidades iniciales también aleatorias y masas iguales
 */
 
 //Incluimos las librerias a ocupar, incluyendo la creada para este proyecto, "galaxia.h"
@@ -129,20 +129,22 @@ int main(){
 	
 	//En este ciclo se realiza la simulación, desde i hasta T, dando pasos de tamaño h	
 	for(double i=0 ; i<=T; i+=h){	
-		cin=0;
-		pot=0;
+		cin=0.0;
+		pot=0.0;
+		//El factor es la conversion para pasar de km/s a kPc/gAño, que son las unidades con las que medimos distancia y tiempo
+		double factor = 1.0219053;
 		//Primero, generamos las nuevas posiciones para cada punto de las dos esferas		
 		for(int j=0 ; j<n ; j++){			
-			cin+=(0.5)*(es1[j][3]*es1[j][3]+es1[j][4]*es1[j][4]+es1[j][5]*es1[j][5]);		
-			nes1[j][0] = es1[j][0] + h*es1[j][3] + (0.5)*es1[j][6]*(h*h);
-			nes1[j][1] = es1[j][1] + h*es1[j][4] + (0.5)*es1[j][7]*(h*h);
-			nes1[j][2] = es1[j][2] + h*es1[j][5] + (0.5)*es1[j][8]*(h*h);
+			cin+=(0.5)*pow((sqrt(es1[j][3]*es1[j][3]+es1[j][4]*es1[j][4]+es1[j][5]*es1[j][5])*factor), 2);		
+			nes1[j][0] = es1[j][0] + h*es1[j][3]*factor + (0.5)*es1[j][6]*(h*h);
+			nes1[j][1] = es1[j][1] + h*es1[j][4]*factor + (0.5)*es1[j][7]*(h*h);
+			nes1[j][2] = es1[j][2] + h*es1[j][5]*factor + (0.5)*es1[j][8]*(h*h);
 		}
 		for(int j=0 ; j<N ; j++){
-			cin+=(0.5)*(es2[j][3]*es2[j][3]+es2[j][4]*es2[j][4]+es2[j][5]*es2[j][5]);
-			nes2[j][0] = es2[j][0] + h*es2[j][3] + (0.5)*es2[j][6]*(h*h);
-			nes2[j][1] = es2[j][1] + h*es2[j][4] + (0.5)*es2[j][7]*(h*h);
-			nes2[j][2] = es2[j][2] + h*es2[j][5] + (0.5)*es2[j][8]*(h*h);	
+			cin+=(0.5)*pow((sqrt(es2[j][3]*es2[j][3]+es2[j][4]*es2[j][4]+es2[j][5]*es2[j][5])*factor), 2);		
+			nes2[j][0] = es2[j][0] + h*es2[j][3]*factor + (0.5)*es2[j][6]*(h*h);
+			nes2[j][1] = es2[j][1] + h*es2[j][4]*factor + (0.5)*es2[j][7]*(h*h);
+			nes2[j][2] = es2[j][2] + h*es2[j][5]*factor + (0.5)*es2[j][8]*(h*h);	
 		}	
 
 		//Calculamos las nuevas fuerzas y velocidades para cada punto en las dos esferas
@@ -188,7 +190,7 @@ int main(){
 	fprintf(ini, "%i\t%i\t%i\n", n, N, pos);
 	fclose(ini);
 
-	//Creamos el archivo "energia.txt" que contiene la energia potencial, cinetica y mecanica a cada punto
+	//Creamos el archivo "energia.txt" que contiene la energia potencial, cinetica y mecanica a cada paso de tiempo
 	
 	extra = dir;
 	char name1[11] = {'e','n','e','r','g','i','a', '.', 't', 'x', 't'};
@@ -196,6 +198,7 @@ int main(){
 		extra[len+i-1]=name1[i];
 	}
 	ini = fopen(extra, "w");
+	fprintf(ini, "Las columnas son: \nIteración \tEnergía Potencial\tEnergia Cínetica\tEnergia Mecanica total\n");
 	for(int i=0 ; i<itera ; i++){
 		fprintf(ini, "%0.0lf \t", energia[i][0]);		
 		for(int j=1 ; j<4 ; j++){			
