@@ -1,11 +1,11 @@
 Tesla
 
-Programacion basica
+Programacion basica.
 Proyecto Final: Simulacion de la colision entre galaxias
 
-Barco Gabriel Missael
-Díaz Moya José Francisco
-Macías Padilla Brayhan Alan
+Barco Gabriel Missael,
+Díaz Moya José Francisco,
+Macías Padilla Brayhan Alan,
 Segura Gómez Guillermo
 
 09 de diciembre de 2018
